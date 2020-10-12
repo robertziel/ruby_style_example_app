@@ -34,19 +34,26 @@ describe GroupEvent, type: :model do
       it { should allow_value(nil).for(:start_date) }
       it { should allow_value(nil).for(:end_date) }
 
-      context 'when start_date nor end_date is empty' do
-        context 'when end_date is before start_date' do
-          let(:end_date) { subject.start_date }
+      context 'when end_date is before start_date' do
+        let(:end_date) { subject.start_date }
 
-          it { should_not allow_value(end_date).for(:end_date) }
-        end
-
-        context 'when end_date is after start_date' do
-          let(:end_date) { subject.start_date + 1.day }
-
-          it { should allow_value(end_date).for(:end_date) }
-        end
+        it { should_not allow_value(end_date).for(:end_date) }
       end
+
+      context 'when end_date is after start_date' do
+        let(:end_date) { subject.start_date + 1.day }
+
+        it { should allow_value(end_date).for(:end_date) }
+      end
+    end
+
+    describe '#validate_duration_is_a_whole_number' do
+      subject { build :group_event, :draft, :filled }
+
+      it { should allow_value(nil).for(:duration) }
+
+      it { should allow_value(described_class::DURATION_FACTOR).for(:duration) }
+      it { should_not allow_value(described_class::DURATION_FACTOR + 1).for(:duration) }
     end
   end
 end
