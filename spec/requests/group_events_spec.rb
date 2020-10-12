@@ -13,12 +13,20 @@ describe GroupEventsController do
       let(:attributes) { { state: GroupEvent::DRAFT } }
 
       it { expect(subject).to have_http_status(201) }
+
+      it 'adds a new group_event' do
+        expect { subject }.to change { GroupEvent.count }
+      end
     end
 
     context 'when request attributes are not valid' do
       let(:attributes) { { state: GroupEvent::PUBLISHED } }
 
       it { expect(subject).to have_http_status(422) }
+
+      it 'does not add a new group_event' do
+        expect { subject }.not_to change { GroupEvent.count }
+      end
     end
   end
 
