@@ -3,6 +3,23 @@ require 'rails_helper'
 describe GroupEventsController do
   let(:group_event) { create :group_event, :draft }
 
+  describe '#show' do
+    subject do
+      get group_event_path(group_event)
+      response
+    end
+
+    it 'returns the todo' do
+      subject
+      expect(json).not_to be_empty
+      expect(json['id']).to eq(group_event.id)
+    end
+
+    it 'returns status code 200' do
+      expect(subject).to have_http_status(200)
+    end
+  end
+
   describe '#create' do
     subject do
       post group_events_path, params: attributes

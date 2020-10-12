@@ -1,5 +1,5 @@
 class GroupEventsController < ApplicationController
-  before_action :set_group_event, only: %i[update destroy]
+  before_action :set_group_event, only: %i[show update destroy]
 
   def create
     @group_event = GroupEvent.new(group_event_params)
@@ -8,6 +8,10 @@ class GroupEventsController < ApplicationController
     else
       json_response(@group_event.errors, :unprocessable_entity)
     end
+  end
+
+  def show
+    json_response(@group_event)
   end
 
   def update
