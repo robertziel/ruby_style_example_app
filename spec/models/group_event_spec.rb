@@ -4,6 +4,18 @@ describe GroupEvent, type: :model do
   describe 'validations' do
     it { should validate_inclusion_of(:state).in_array(described_class::STATE_TYPES) }
 
+    context 'when state is draft' do
+      subject { build :group_event, :draft, :filled }
+
+      it { should allow_value(nil).for(:end_date) }
+      it { should allow_value(nil).for(:start_date) }
+      it { should allow_value(nil).for(:duration) }
+
+      it { should allow_value(nil).for(:name) }
+      it { should allow_value(nil).for(:description) }
+      it { should allow_value(nil).for(:location) }
+    end
+
     context 'when state is published' do
       subject { build :group_event, :published }
 
