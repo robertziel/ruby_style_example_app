@@ -1,9 +1,5 @@
 class GroupEvent < ApplicationRecord
-  DRAFT = 'draft'.freeze
-  PUBLISHED = 'published'.freeze
-  STATE_TYPES = [DRAFT, PUBLISHED].freeze
-
-  validates :state, inclusion: { in: STATE_TYPES }
+  include GroupEventStateConcerns
 
   with_options if: :published? do
     validates :start, presence: true
@@ -13,11 +9,5 @@ class GroupEvent < ApplicationRecord
     validates :name, presence: true
     validates :description, presence: true
     validates :location, presence: true
-  end
-
-  # State methods
-
-  def published?
-    state == PUBLISHED
   end
 end
