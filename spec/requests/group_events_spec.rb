@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe GroupEventsController do
-  let(:group_event) { create :group_event, :draft }
+  let(:group_event) { create :group_event, :published, :filled }
 
   describe '#index' do
     subject do
@@ -77,7 +77,7 @@ describe GroupEventsController do
     end
 
     context 'when request attributes are not valid' do
-      let(:attributes) { { state: GroupEvent::PUBLISHED } }
+      let(:attributes) { { name: nil } }
 
       it { expect(subject).to have_http_status(422) }
     end
