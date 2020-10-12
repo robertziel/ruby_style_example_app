@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe GroupEvent, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe GroupEvent, type: :model do
+  describe '#validations' do
+    it { validate_inclusion_of(:state).in_array(described_class::STATE_TYPES) }
+  end
 end
