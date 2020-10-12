@@ -3,6 +3,8 @@ class GroupEvent < ApplicationRecord
 
   include GroupEventStateConcerns
 
+  acts_as_paranoid
+
   validate :validate_end_after_start
   validate :validate_duration_is_a_whole_number
 

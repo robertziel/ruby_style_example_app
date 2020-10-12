@@ -13,6 +13,8 @@ gem 'puma', '~> 4.1'
 
 gem 'jbuilder', '~> 2.7'
 
+gem 'acts_as_paranoid'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
