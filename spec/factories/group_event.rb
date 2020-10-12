@@ -10,12 +10,12 @@ FactoryBot.define do
 
     trait :filled do
       start_date { Time.zone.now }
-      end_date { start_date + 30.day }
-      duration { 30 }
+      end_date { start_date + GroupEvent::DURATION_FACTOR.day }
+      duration { GroupEvent::DURATION_FACTOR }
 
-      name { 'example_name' }
-      description { 'example_description' }
-      location { 'example_location' }
+      name { Faker::Lorem.word }
+      description { Faker::Lorem.word }
+      location { Faker::Lorem.word }
     end
   end
 end
