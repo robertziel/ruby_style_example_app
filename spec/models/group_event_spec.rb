@@ -7,8 +7,8 @@ describe GroupEvent, type: :model do
     context 'when state is published' do
       subject { build :group_event, :published }
 
-      it { should validate_presence_of(:start) }
-      it { should validate_presence_of(:end) }
+      it { should validate_presence_of(:start_date) }
+      it { should validate_presence_of(:end_date) }
       it { should validate_presence_of(:duration) }
 
       it { should validate_presence_of(:name) }

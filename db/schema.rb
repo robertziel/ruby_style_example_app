@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2020_10_12_073940) do
 
   create_table "group_events", force: :cascade do |t|
     t.string "state", default: "draft", null: false
-    t.date "start"
-    t.date "end"
+    t.date "start_date"
+    t.date "end_date"
     t.integer "duration"
     t.string "name"
     t.text "description"
