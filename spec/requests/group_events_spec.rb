@@ -10,17 +10,34 @@ describe GroupEventsController do
     context 'when request attributes are valid' do
       let(:attributes) { { state: GroupEvent::DRAFT } }
 
-      it 'returns status code 201' do
-        expect(subject).to have_http_status(201)
-      end
+      it { expect(subject).to have_http_status(201) }
     end
 
     context 'when request attributes are not valid' do
       let(:attributes) { { state: GroupEvent::PUBLISHED } }
 
-      it 'returns status code 422' do
-        expect(subject).to have_http_status(422)
-      end
+      it { expect(subject).to have_http_status(422) }
+    end
+  end
+
+  describe '#update' do
+    let(:group_event) { create :group_event, :draft }
+
+    subject do
+      put group_event_path(group_event), params: attributes
+      response
+    end
+
+    context 'when request attributes are valid' do
+      let(:attributes) { { state: GroupEvent::DRAFT } }
+
+      it { expect(subject).to have_http_status(204) }
+    end
+
+    context 'when request attributes are not valid' do
+      let(:attributes) { { state: GroupEvent::PUBLISHED } }
+
+      it { expect(subject).to have_http_status(422) }
     end
   end
 end

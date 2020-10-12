@@ -8,6 +8,15 @@ class GroupEventsController < ApplicationController
     end
   end
 
+  def update
+    @group_event = GroupEvent.find(params[:id])
+    if @group_event.update(group_event_params)
+      head :no_content
+    else
+      json_response(@group_event.errors, :unprocessable_entity)
+    end
+  end
+
   private
 
   def group_event_params
