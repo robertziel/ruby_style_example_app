@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe GroupEventsController do
   let(:group_event) { create :group_event, :published, :filled }
+  let(:group_event_attributes) { attributes_for :group_event, :published, :filled }
 
   describe '#index' do
     subject do
@@ -39,13 +40,11 @@ describe GroupEventsController do
 
   describe '#create' do
     subject do
-      post group_events_path, params: attributes
+      post group_events_path, params: group_event_attributes
       response
     end
 
     context 'when request attributes are valid' do
-      let(:attributes) { { state: GroupEvent::DRAFT } }
-
       it { expect(subject).to have_http_status(201) }
 
       it 'adds a new group_event' do
@@ -54,7 +53,9 @@ describe GroupEventsController do
     end
 
     context 'when request attributes are not valid' do
-      let(:attributes) { { state: GroupEvent::PUBLISHED } }
+      before do
+        group_event_attributes[:name] = nil
+      end
 
       it { expect(subject).to have_http_status(422) }
 
@@ -66,18 +67,18 @@ describe GroupEventsController do
 
   describe '#update' do
     subject do
-      put group_event_path(group_event), params: attributes
+      put group_event_path(group_event), params: group_event_attributes
       response
     end
 
     context 'when request attributes are valid' do
-      let(:attributes) { { state: GroupEvent::DRAFT } }
-
       it { expect(subject).to have_http_status(204) }
     end
 
     context 'when request attributes are not valid' do
-      let(:attributes) { { name: nil } }
+      before do
+        group_event_attributes[:name] = nil
+      end
 
       it { expect(subject).to have_http_status(422) }
     end
