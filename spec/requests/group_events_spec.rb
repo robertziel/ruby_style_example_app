@@ -3,6 +3,23 @@ require 'rails_helper'
 describe GroupEventsController do
   let(:group_event) { create :group_event, :draft }
 
+  describe '#index' do
+    subject do
+      group_event
+      get group_events_path
+      response
+    end
+
+    it 'returns todos' do
+      subject
+      expect(json).to eq [group_event.as_json]
+    end
+
+    it 'returns status code 200' do
+      expect(subject).to have_http_status(200)
+    end
+  end
+
   describe '#show' do
     subject do
       get group_event_path(group_event)

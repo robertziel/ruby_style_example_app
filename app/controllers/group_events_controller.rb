@@ -1,6 +1,11 @@
 class GroupEventsController < ApplicationController
   before_action :set_group_event, only: %i[show update destroy]
 
+  def index
+    @group_events = GroupEvent.all
+    json_response(@group_events)
+  end
+
   def create
     @group_event = GroupEvent.new(group_event_params)
     if @group_event.save
