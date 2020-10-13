@@ -9,9 +9,18 @@ FactoryBot.define do
     end
 
     trait :filled do
-      start_date { Faker::Date.in_date_period }
-      end_date { start_date + GroupEvent::DURATION_FACTOR.days }
       duration { GroupEvent::DURATION_FACTOR }
+      start_date { Faker::Date.in_date_period }
+      end_date do
+        if start_date
+          StartEndDurationService.call(
+            start_date: start_date,
+            duration: GroupEvent::DURATION_FACTOR
+          )[:end_date]
+        else
+          Faker::Date.in_date_period
+        end
+      end
 
       name { Faker::Lorem.word }
       description { Faker::Lorem.word }

@@ -31,15 +31,21 @@ class StartEndDurationService < ApplicationService
   end
 
   def set_duration
-    self.duration = (end_date - start_date).to_i
+    days_difference = end_date - start_date
+    self.duration = (days_difference + 1).to_i # duration includes first day
   end
 
   def set_end_date
-    self.end_date = start_date + duration.days
+    days_difference_from_duration
+    self.end_date = start_date + days_difference_from_duration.days
   end
 
   def set_start_date
-    self.start_date = end_date - duration.days
+    self.start_date = end_date - days_difference_from_duration.days
+  end
+
+  def days_difference_from_duration
+    duration - 1 # duration includes first day
   end
 
   def two_params_has_value?

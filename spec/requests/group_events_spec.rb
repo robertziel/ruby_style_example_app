@@ -10,10 +10,6 @@ describe GroupEventsController do
     { duration: GroupEvent::DURATION_FACTOR * 9 }
   end
 
-  before do
-    allow(StartEndDurationService).to receive(:call).and_return(service_attributes)
-  end
-
   describe '#index' do
     subject do
       group_event
@@ -21,7 +17,7 @@ describe GroupEventsController do
       response
     end
 
-    it 'returns todos' do
+    it 'returns group_events' do
       subject
       expect(json).to eq [group_event.as_json]
     end
@@ -37,7 +33,7 @@ describe GroupEventsController do
       response
     end
 
-    it 'returns the todo' do
+    it 'returns the group_event' do
       subject
       expect(json).not_to be_empty
       expect(json['id']).to eq(group_event.id)
@@ -50,6 +46,8 @@ describe GroupEventsController do
 
   describe '#create' do
     subject do
+      group_event_attributes # group_event factory uses StartEndDurationService
+      allow(StartEndDurationService).to receive(:call).once.and_return(service_attributes)
       post group_events_path, params: group_event_attributes
       response
     end
@@ -82,6 +80,9 @@ describe GroupEventsController do
 
   describe '#update' do
     subject do
+      group_event # group_event factory uses StartEndDurationService
+      group_event_attributes # group_event factory uses StartEndDurationService
+      allow(StartEndDurationService).to receive(:call).once.and_return(service_attributes)
       put group_event_path(group_event), params: group_event_attributes
       response
     end
