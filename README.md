@@ -47,6 +47,10 @@ PATCH | /group_events/:id
 PUT | /group_events/:id
 DELETE | /group_events/:id
 
+## To do
+* It may be useful to validate if duration matches start_date and end_date (especially if all 3 attributes are provided via API)
+* Validation translations should be added
+
 ## Uncertainties
 * It is said that: `The group event should run for a whole number of days e.g.. 30 or 60.`. In mathematics, whole numbers are the basic counting numbers 0, 1, 2, 3, 4, 5, 6, … and so on. It means it cannot be one and half day, which makes sense even without this tip.
 But also there are example numbers 30 and 60 are the whole number of days. The question is if the author mean the whole number of days as theoretical mathematical numbers or period that matches 30, 60 and so on. In the second case it seems like the whole number is a duration divisible by 30.
