@@ -2,9 +2,9 @@ class StartEndDurationService < ApplicationService
   attr_accessor :start_date, :end_date, :duration
 
   def initialize(params)
-    self.start_date = params[:start_date]
-    self.end_date = params[:end_date]
-    self.duration = params[:duration]
+    self.start_date = params[:start_date]&.to_date
+    self.end_date = params[:end_date]&.to_date
+    self.duration = params[:duration]&.to_i
   end
 
   def call

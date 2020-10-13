@@ -8,13 +8,21 @@ describe StartEndDurationService do
     group_event_attributes.slice(*fields_names)
   end
 
+  let(:stringified_attributes) do
+    hash = {}
+    attributes.each { |key, value| hash[key] = value.to_s }
+    hash
+  end
+
+  let(:service_params) { stringified_attributes }
+
   describe '#call' do
     subject do
-      described_class.call(attributes)
+      described_class.call(service_params)
     end
 
     context 'when none attribute is passed' do
-      let(:attributes) { {} }
+      let(:service_params) { {} }
 
       it 'returns empty hash' do
         expect(subject).to be_empty
@@ -32,7 +40,7 @@ describe StartEndDurationService do
         before do
           nullified_fields = (fields_names - [field_name])
           nullified_fields.each do |nullified_field|
-            attributes[nullified_field] = nil
+            service_params[nullified_field] = nil
           end
         end
 
@@ -52,7 +60,7 @@ describe StartEndDurationService do
           let!(:expected_nullified_field_value) { attributes[nullified_field] }
 
           before do
-            attributes[nullified_field] = nil
+            service_params[nullified_field] = nil
           end
 
           it "sets value for #{nullified_field}" do
