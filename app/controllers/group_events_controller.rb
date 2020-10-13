@@ -8,6 +8,7 @@ class GroupEventsController < ApplicationController
 
   def create
     @group_event = GroupEvent.new(group_event_params)
+    assign_start_end_duration_values
     if @group_event.save
       json_response(@group_event, :created)
     else
@@ -20,7 +21,9 @@ class GroupEventsController < ApplicationController
   end
 
   def update
-    if @group_event.update(group_event_params)
+    @group_event.assign_attributes(group_event_params)
+    assign_start_end_duration_values
+    if @group_event.save
       head :no_content
     else
       json_response(@group_event.errors, :unprocessable_entity)
@@ -33,6 +36,11 @@ class GroupEventsController < ApplicationController
   end
 
   private
+
+  def assign_start_end_duration_values
+    attributes = StartEndDurationService.call(group_event_params)
+    @group_event.assign_attributes(attributes)
+  end
 
   def group_event_params
     params.permit(:state, :start_date, :end_date, :duration, :name, :description, :location)

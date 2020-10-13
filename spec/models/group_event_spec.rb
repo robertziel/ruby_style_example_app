@@ -29,19 +29,21 @@ describe GroupEvent, type: :model do
     end
 
     describe '#validate_end_after_start' do
-      subject { build :group_event, :draft, :filled }
+      let(:group_event) { build :group_event, :draft, :filled }
+
+      subject { group_event }
 
       it { should allow_value(nil).for(:start_date) }
       it { should allow_value(nil).for(:end_date) }
 
-      context 'when end_date is before start_date' do
-        let(:end_date) { subject.start_date }
+      context 'when end_date is before or the same as start_date' do
+        let(:end_date) { group_event.start_date }
 
         it { should_not allow_value(end_date).for(:end_date) }
       end
 
       context 'when end_date is after start_date' do
-        let(:end_date) { subject.start_date + 1.day }
+        let(:end_date) { group_event.start_date + 1.day }
 
         it { should allow_value(end_date).for(:end_date) }
       end

@@ -2,7 +2,17 @@ require 'rails_helper'
 
 describe GroupEventsController do
   let(:group_event) { create :group_event, :published, :filled }
-  let(:group_event_attributes) { attributes_for :group_event, :published, :filled }
+  let(:group_event_attributes) do
+    attributes_for :group_event, :published, :filled, duration: nil
+  end
+
+  let(:service_attributes) do
+    { duration: GroupEvent::DURATION_FACTOR * 9 }
+  end
+
+  before do
+    allow(StartEndDurationService).to receive(:call).and_return(service_attributes)
+  end
 
   describe '#index' do
     subject do
@@ -44,6 +54,11 @@ describe GroupEventsController do
       response
     end
 
+    it 'calls StartEndDurationService and sets attributes' do
+      subject
+      expect(GroupEvent.last.duration).to eq service_attributes[:duration]
+    end
+
     context 'when request attributes are valid' do
       it { expect(subject).to have_http_status(201) }
 
@@ -81,6 +96,11 @@ describe GroupEventsController do
       end
 
       it { expect(subject).to have_http_status(422) }
+    end
+
+    it 'calls StartEndDurationService and sets attributes' do
+      subject
+      expect(group_event.reload.duration).to eq service_attributes[:duration]
     end
   end
 
