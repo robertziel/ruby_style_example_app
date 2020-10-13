@@ -1,24 +1,48 @@
-# README
+## Quick start
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Install the bundle:
+```
+bundle install
+```
 
-Things you may want to cover:
+Make sure the postresql is running on localhost. You may have to change your credentials under /config/database.yml:
 
-* Ruby version
+```
+rake db:create
+rake db:migrate
+```
 
-* System dependencies
+Run the development server:
 
-* Configuration
+```
+rails s
+```
 
-* Database creation
+Connect to API via http://localhost:3000
 
-* Database initialization
+## Before commit
+Set up overcommit to make sure your code is clean :) :
 
-* How to run the test suite
+```bash
+gem install overcommit
+bundle install --gemfile=.overgems.rb
+overcommit --install
+```
+Then you can commit your changes! And don't forget to run specs before:
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+bundle exec rspec
+```
 
-* Deployment instructions
+## API
 
-* ...
+Available requests:
+
+Verb | Path
+--- | ---
+GET | /group_events
+POST | /group_events
+GET | /group_events/:id
+PATCH | /group_events/:id
+PUT | /group_events/:id
+DELETE | /group_events/:id
